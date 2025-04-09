@@ -10,9 +10,9 @@ day_before = yesterday - timedelta(days=1)
 
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
-STOCK_KEY = "6DZ2HH6P86FJOHC5"
+STOCK_KEY = ""
 
-NEWS_KEY = "63cc360ec4b14381b54ee22f56b8b023"
+NEWS_KEY = ""
 
 stock_parameters = {
     "function": "TIME_SERIES_DAILY",
@@ -53,7 +53,7 @@ if abs(difference) > 5:
 # Send a separate message with the percentage change and each article's title and description
 
 def telegram_messenger(message):
-    bot_token = "7775756961:AAFdToL22-wjVd-DSwS_zbwicEAAVqREeak"
+    bot_token = ""
     bot_chat_id = '6166404353'
     send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chat_id + '&parse_mode=Markdown&text=' + message
     response = requests.get(send_text)
