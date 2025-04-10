@@ -1,0 +1,5 @@
+Using API calls to Google Sheets, Nutritionix, and Sheety to upload workouts to a Google Sheet. 
+Storing tokens and endpoints as environment variables
+
+- API calls
+- Environment variables
