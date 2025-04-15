@@ -1,30 +1,39 @@
 import requests
 import os
-import smtplib
 
-class NotificationManager:
-    #This class is responsible for sending notifications with the deal flight details.
+class DataManager:
+    #This class is responsible for talking to the Google Sheet.
     def __init__(self):
-        self.BOT_TOKEN = os.environ.get("BOT_TOKEN")
-        self.CHAT_ID = os.environ.get("CHAT_ID")
-        self.API_ENDPOINT = f"https://api.telegram.org/bot{self.BOT_TOKEN}/sendMessage"
-        self.PASSWORD = os.environ.get("PASSWORD")
-        self.MY_EMAIL = os.environ.get("MY_EMAIL")
-
-
-    def telegram_messenger(self, message):
-        parameters = {
-            "chat_id": self.CHAT_ID,
-            "text": message
+        self.SHEETY_PRICES_ENDPOINT = os.environ.get("SHEETY_PRICES_ENDPOINT")
+        self.SHEETY_USERS_ENDPOINT = os.environ.get("SHEETY_USERS_ENDPOINT")
+        self.SHEETY_TOKEN = os.environ.get("SHEETY_TOKEN")
+        self.HEADERS = {
+            "Authorization": f"Bearer {self.SHEETY_TOKEN}"
         }
-        response = requests.get(url= self.API_ENDPOINT, json= parameters)
-        response.raise_for_status()
-        return response.json()
 
-    def email_sender(self, email_address, message):
-        with smtplib.SMTP("smtp.gmail.com") as connection:
-            connection.starttls()
-            connection.login(user= self.MY_EMAIL, password= self.PASSWORD)
-            connection.sendmail(from_addr= self.MY_EMAIL,
-                                to_addrs= email_address,
-                                msg= f"Subject: Flight Offer!\n\n{message}")
+
+    def get_data(self):
+        response = requests.get(url= self.SHEETY_PRICES_ENDPOINT, headers= self.HEADERS)
+        response.raise_for_status()
+        data = response.json()
+        # data = {'prices': [{'city': 'Milan', 'iata': 'MIL', 'price': '180.91', 'id': 2}, {'city': 'Paris', 'iata': 'PAR', 'price': '152.22', 'id': 3}, {'city': 'New York', 'iata': 'NYC', 'price': '600.48', 'id': 4}]}     # Save on API calls
+        return {data['prices'][i]['city']: {'iata': data['prices'][i]['iata'], 'id': data['prices'][i]['id'], 'lowestPrice': data['prices'][i]['price']} for i in range(len(data['prices']))}
+
+
+    def get_customer_emails(self):
+        response = requests.get(url= self.SHEETY_USERS_ENDPOINT, headers= self.HEADERS)
+        response.raise_for_status()
+        data = response.json()
+        # data = {'users': [{'timestamp': '4/15/2025 10:05:05', 'whatIsYourFirstName?': 'Jacques', 'whatIsYourLastName?': 'Massey', 'whatIsYourEmailAddress': 'jacquesmassi@gmail.com', 'id': 2}]}
+        emails = [data['users'][i]['whatIsYourEmailAddress'] for i in range(len(data['users']))]
+        return emails
+
+
+    def update_prices(self, id, price):
+        data = {
+            'price': {
+                'price': price
+            }
+        }
+        response = requests.put(url= f"{self.SHEETY_PRICES_ENDPOINT}/{id}", json= data, headers= self.HEADERS)
+        response.raise_for_status()
