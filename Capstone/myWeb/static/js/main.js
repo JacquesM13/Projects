@@ -81,18 +81,23 @@
 
 			var $gallery = $('.gallery');
 
-			$gallery.poptrox({
-				baseZIndex: 10001,
-				useBodyOverflow: false,
-				usePopupEasyClose: false,
-				overlayColor: '#1f2328',
-				overlayOpacity: 0.65,
-				usePopupDefaultStyling: false,
-				usePopupCaption: true,
-				popupLoaderText: '',
-				windowMargin: 50,
-				usePopupNav: true
-			});
+//			$gallery.poptrox({
+//				baseZIndex: 10001,
+//				useBodyOverflow: false,
+//				usePopupEasyClose: false,
+//				overlayColor: '#1f2328',
+//				overlayOpacity: 0.65,
+//				usePopupDefaultStyling: false,
+//				usePopupCaption: true,
+//				popupLoaderText: '',
+//				windowMargin: 50,
+//				usePopupNav: true
+//			});
+
+            $gallery.poptrox({
+                selector: '', // disable poptrox completely but keep gallery layout
+            });
+
 
 			// Hack: Adjust margins when 'small' activates.
 				breakpoints.on('>small', function() {
