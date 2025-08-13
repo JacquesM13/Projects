@@ -9,7 +9,7 @@ import urllib.parse
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = ''
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///movie_database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -39,7 +39,7 @@ class MovieForm(FlaskForm):
 
 headers = {
     "accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3MjBjNDNkOGE2MmZhYjE3YTVmZTllYWQ0YTQ5YTE1YiIsIm5iZiI6MTc1NDk4NjcwMC45MzI5OTk4LCJzdWIiOiI2ODlhZjhjYzdmMjRkYjljMDJiNzA2YWQiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.U0Ba4E6VZZxUYQJPk6GD3AXysAVeuVJgmyG-MbWb_HQ"
+    "Authorization": "Bearer "
 }
 
 search_url1 = "https://api.themoviedb.org/3/search/movie?query="
