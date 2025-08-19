@@ -1,0 +1,6 @@
+A simple blog
+
+- Flask
+- WTForms
+- SQL (SQLAlchemy)
+- Jinja
